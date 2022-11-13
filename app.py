@@ -81,10 +81,32 @@ def create():
 # Define the healthz page
 
 
-@app.route('/healthz', methods=('GET'))
+@app.route('/healthz')
 def health():
     data = {'result': 'OK - healthy'}
     return make_response(jsonify(data), 200)
+
+# Define the metrics page
+
+
+@app.route('/metrics')
+def metrics():
+    data = get_matrics_data()
+    return make_response(data, 200)
+
+
+def get_matrics_data():
+    connection = get_db_connection()
+
+    dbConnectionCount = 1  # connection.total_changes
+    postCount = len(connection.execute(
+        'SELECT * FROM posts').fetchall())
+    connection.close()
+
+    data = {'db_connection_count': dbConnectionCount,
+            'post_count': postCount
+            }
+    return jsonify(data)
 
 
 # start the application on port 3111
