@@ -1,5 +1,5 @@
 import sqlite3
-
+import logging
 from flask import Flask, jsonify, json, make_response, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 
@@ -45,8 +45,11 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
+        app.logger.info(f'Article Not Found!')
         return render_template('404.html'), 404
     else:
+        title = dict(post)['title']
+        app.logger.info(f'Article "{title}" retrieved!')
         return render_template('post.html', post=post)
 
 # Define the About Us page
@@ -54,6 +57,7 @@ def post(post_id):
 
 @app.route('/about')
 def about():
+    app.logger.info(f'Navigating to about us page!')
     return render_template('about.html')
 
 # Define the post creation functionality
@@ -73,6 +77,8 @@ def create():
                                (title, content))
             connection.commit()
             connection.close()
+
+            app.logger.info(f'New article "{title}" created')
 
             return redirect(url_for('index'))
 
@@ -111,4 +117,5 @@ def get_matrics_data():
 
 # start the application on port 3111
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='3111')
+    # logging.basicConfig(filename='app.log', level=logging.DEBUG)
+    app.run(host='0.0.0.0', port='3111', debug=True)
