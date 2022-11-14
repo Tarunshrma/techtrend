@@ -1,6 +1,0 @@
-DOCKER
-docker build -t tarunshrma/techtrend:1.0.0 
-docker images
-docker run <IMAGE-ID>
-docker ps
-docker run -p 7111:3111 a44c3ae8382c

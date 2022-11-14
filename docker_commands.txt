@@ -1,0 +1,63 @@
+==============================================================
+                    DOCKER Commands
+==============================================================
+
+docker build -t tarunshrma/techtrend:1.0.0 
+docker images
+docker run <IMAGE-ID>
+docker ps
+docker run -p 7111:3111 <Container-ID>
+
+==============================================================
+                        LOGS
+==============================================================
+tarunsharma@Sanchits-Mac-mini techtrend % docker logs 463303300cf4 
+ * Serving Flask app 'app' (lazy loading)
+ * Environment: production
+   WARNING: This is a development server. Do not use it in a production deployment.
+   Use a production WSGI server instead.
+ * Debug mode: on
+ * Running on all addresses.
+   WARNING: This is a development server. Do not use it in a production deployment.
+ * Running on http://172.17.0.2:3111/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: 132-141-982
+172.17.0.1 - - [14/Nov/2022 04:24:53] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:24:53] "GET /static/css/main.css HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:24:53] "GET /favicon.ico HTTP/1.1" 404 -
+[2022-11-14 04:24:58,162] INFO in app: Article "2020 CNCF Annual Report" retrieved!
+172.17.0.1 - - [14/Nov/2022 04:24:58] "GET /1 HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:24:58] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [14/Nov/2022 04:25:04] "GET /create HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:25:04] "GET /static/css/main.css HTTP/1.1" 304 -
+[2022-11-14 04:25:09,034] INFO in app: New article "test" created
+172.17.0.1 - - [14/Nov/2022 04:25:09] "POST /create HTTP/1.1" 302 -
+172.17.0.1 - - [14/Nov/2022 04:25:09] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:25:09] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [14/Nov/2022 04:25:53] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:25:53] "GET /static/css/main.css HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:25:53] "GET /favicon.ico HTTP/1.1" 404 -
+[2022-11-14 04:32:54,169] INFO in app: Article "2020 CNCF Annual Report" retrieved!
+172.17.0.1 - - [14/Nov/2022 04:32:54] "GET /1 HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:32:54] "GET /static/css/main.css HTTP/1.1" 304 -
+[2022-11-14 04:32:58,291] INFO in app: Article "KubeCon + CloudNativeCon 2021" retrieved!
+172.17.0.1 - - [14/Nov/2022 04:32:58] "GET /2 HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:32:58] "GET /static/css/main.css HTTP/1.1" 304 -
+[2022-11-14 04:33:00,715] INFO in app: Navigating to about us page!
+172.17.0.1 - - [14/Nov/2022 04:33:00] "GET /about HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:33:00] "GET /static/css/main.css HTTP/1.1" 304 -
+[2022-11-14 04:33:03,584] INFO in app: Article "2020 CNCF Annual Report" retrieved!
+172.17.0.1 - - [14/Nov/2022 04:33:03] "GET /1 HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:33:03] "GET /static/css/main.css HTTP/1.1" 304 -
+[2022-11-14 04:33:05,836] INFO in app: Article Not Found!
+172.17.0.1 - - [14/Nov/2022 04:33:05] "GET /12 HTTP/1.1" 404 -
+172.17.0.1 - - [14/Nov/2022 04:33:05] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [14/Nov/2022 04:33:09] "GET /create HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:33:09] "GET /static/css/main.css HTTP/1.1" 304 -
+[2022-11-14 04:33:12,052] INFO in app: New article "asd" created
+172.17.0.1 - - [14/Nov/2022 04:33:12] "POST /create HTTP/1.1" 302 -
+172.17.0.1 - - [14/Nov/2022 04:33:12] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:33:12] "GET /static/css/main.css HTTP/1.1" 304 -
+172.17.0.1 - - [14/Nov/2022 04:33:21] "GET / HTTP/1.1" 200 -
+172.17.0.1 - - [14/Nov/2022 04:33:21] "GET /static/css/main.css HTTP/1.1" 304 -
