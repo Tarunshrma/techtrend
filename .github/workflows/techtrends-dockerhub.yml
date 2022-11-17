@@ -7,7 +7,7 @@ on:
 
 jobs:
   docker:
-    runs-on: ubuntu-latest
+    runs-on: macos-12
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,4 +25,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: tarunshrma/techtrends:0.0.1
+          tags: tarunshrma/techtrends:0.0.4

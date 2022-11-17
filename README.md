@@ -10,3 +10,6 @@ To run this application there are 2 steps required:
 
 1. Initialize the database by using the `python init_db.py` command. This will create or overwrite the `database.db` file that is used by the web application.
 2.  Run the TechTrends application by using the `python app.py` command. The application is running on port `3111` and you can access it by querying the `http://127.0.0.1:3111/` endpoint.
+
+Note:
+As I am using M1 based mac machine.. the image built by github action does not seems to be working as it was built using different architecture. I had to create & push the build seperatly from my local M1 based machine.
