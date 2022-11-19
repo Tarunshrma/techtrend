@@ -2,40 +2,39 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: techtrends
-  name: techtrends-deploy
+    app: { { .Values.appname } }
+  name: { { .Values.appname } }
   namespace: { { .Values.namespace.name } }
 
 spec:
-  replicas: { { .Values.namespace.name } }
+  replicas: { { .Values.replicaCount } }
   selector:
     matchLabels:
-      app: techtrends
+      app: { { .Values.appname } }
   template:
     metadata:
       labels:
-        app: techtrends
+        app: { { .Values.appname } }
     spec:
       containers:
-        - image: { .Values.image.repository }
-          tag: { .Values.image.tag }
-          imagePullPolicy: { .Values.image.pullPolicy }
-          name: { .Values.image.repository }
+        - image: { { .Values.image.repository } }
+          tag: { { .Values.image.tag } }
+          imagePullPolicy: { { .Values.image.pullPolicy } }
+          name: { { .Values.appname } }
           ports:
-            - containerPort: { .Values.containerPort }
-              protocol: TCP
+            - containerPort: { { .Values.containerPort } }
           resources:
             requests:
-              cpu: { .Values.resources.requests.cpu }
-              memory: { .Values.resources.requests.memory }
+              cpu: { { .Values.resources.requests.cpu } }
+              memory: { { .Values.resources.requests.memory } }
             limits:
-              cpu: { .Values.resources.limits.cpu }
-              memory: { .Values.resources.limits.memory }
+              cpu: { { .Values.resources.limits.cpu } }
+              memory: { { .Values.resources.limits.memory } }
           livenessProbe:
             httpGet:
-              path: { .Values.livenessProbe.path }
-              port: { .Values.containerPort }
+              path: { { .Values.livenessProbe.path } }
+              port: { { .Values.livenessProbe.port } }
           readinessProbe:
             httpGet:
-              path: { .Values.readinessProbe.path }
-              port: { .Values.containerPort }
+              path: { { .Values.readinessProbe.path } }
+              port: { { .Values.readinessProbe.port } }

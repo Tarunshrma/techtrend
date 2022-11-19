@@ -1,6 +1,8 @@
 namespace:
   name: sandbox
 
+appname: techtrends
+
 service:
   port: 4111
   targetPort: 3111
@@ -26,6 +28,8 @@ resources:
 
 livenessProbe:
   path: /healthz
+  port: 3111
 
 readinessProbe:
   path: /healthz
+  port: 3111
