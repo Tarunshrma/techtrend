@@ -2,12 +2,12 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: techtrends-staging
-  namespace: argocd
+  namespace: argocd1
 spec:
   destination:
-    namespace: techtrends
+    namespace: default
     server: https://kubernetes.default.svc
-  project: techtrends
+  project: default
   source:
     helm:
       valueFiles:
