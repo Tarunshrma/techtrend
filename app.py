@@ -1,12 +1,13 @@
-import datetime
 import sqlite3
 import logging
 from flask import Flask, jsonify, json, make_response, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
-
+from datetime import datetime
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
+
+
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
@@ -51,7 +52,7 @@ def post(post_id):
         return render_template('404.html'), 404
     else:
         title = dict(post)['title']
-        app.logger.info(format_log('Article %s retrieved!', title))
+        app.logger.info(format_log(f'Article {title} retrieved!'))
         return render_template('post.html', post=post)
 
 # Define the About Us page
@@ -80,7 +81,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.info(format_log('New article %s created', title))
+            app.logger.info(format_log(f'New article {title} created'))
 
             return redirect(url_for('index'))
 
@@ -116,7 +117,7 @@ def get_matrics_data():
     return jsonify(data)
 
 
-def format_log(msg, logType):
+def format_log(msg):
     return '{time} | {message}'.format(
         time=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), message=msg)
 
