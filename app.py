@@ -4,17 +4,13 @@ import logging
 from flask import Flask, jsonify, json, make_response, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 
-# This global variable will keep track of total db connections
-dbConnectionCount = 0
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
-
-
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
-    dbConnectionCount += 1
+    app.config['dbConnectionCount'] += 1
     return connection
 
 # Function to get a post using its ID
@@ -31,6 +27,7 @@ def get_post(post_id):
 # Define the Flask application
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your secret key'
+app.config['dbConnectionCount'] = 0
 
 # Define the main route of the web application
 
@@ -113,7 +110,7 @@ def get_matrics_data():
         'SELECT * FROM posts').fetchall())
     connection.close()
 
-    data = {'db_connection_count': dbConnectionCount,
+    data = {'db_connection_count': app.config['dbConnectionCount'],
             'post_count': postCount
             }
     return jsonify(data)
