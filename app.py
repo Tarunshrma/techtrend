@@ -54,7 +54,7 @@ def post(post_id):
         return render_template('404.html'), 404
     else:
         title = dict(post)['title']
-        app.logger.info(format_log(f'Article "{title}" retrieved!'))
+        app.logger.info(format_log('Article %s retrieved!', title))
         return render_template('post.html', post=post)
 
 # Define the About Us page
@@ -62,7 +62,7 @@ def post(post_id):
 
 @ app.route('/about')
 def about():
-    app.logger.info(format_log(f'Navigating to about us page!'))
+    app.logger.info(format_log('Navigating to about us page!'))
     return render_template('about.html')
 
 # Define the post creation functionality
@@ -83,7 +83,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.info(format_log(f'New article "{title}" created'))
+            app.logger.info(format_log('New article %s created', title))
 
             return redirect(url_for('index'))
 
