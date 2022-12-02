@@ -1,7 +1,11 @@
+import datetime
 import sqlite3
 import logging
 from flask import Flask, jsonify, json, make_response, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
+
+# This global variable will keep track of total db connections
+dbConnectionCount = 0
 
 # Function to get a database connection.
 # This function connects to database with the name `database.db`
@@ -10,6 +14,7 @@ from werkzeug.exceptions import abort
 def get_db_connection():
     connection = sqlite3.connect('database.db')
     connection.row_factory = sqlite3.Row
+    dbConnectionCount += 1
     return connection
 
 # Function to get a post using its ID
@@ -45,25 +50,25 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-        app.logger.info(f'Article Not Found!')
+        app.logger.error(format_log('Article Not Found!'))
         return render_template('404.html'), 404
     else:
         title = dict(post)['title']
-        app.logger.info(f'Article "{title}" retrieved!')
+        app.logger.info(format_log(f'Article "{title}" retrieved!'))
         return render_template('post.html', post=post)
 
 # Define the About Us page
 
 
-@app.route('/about')
+@ app.route('/about')
 def about():
-    app.logger.info(f'Navigating to about us page!')
+    app.logger.info(format_log(f'Navigating to about us page!'))
     return render_template('about.html')
 
 # Define the post creation functionality
 
 
-@app.route('/create', methods=('GET', 'POST'))
+@ app.route('/create', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
         title = request.form['title']
@@ -78,7 +83,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.info(f'New article "{title}" created')
+            app.logger.info(format_log(f'New article "{title}" created'))
 
             return redirect(url_for('index'))
 
@@ -87,7 +92,7 @@ def create():
 # Define the healthz page
 
 
-@app.route('/healthz')
+@ app.route('/healthz')
 def health():
     data = {'result': 'OK - healthy'}
     return make_response(jsonify(data), 200)
@@ -95,7 +100,7 @@ def health():
 # Define the metrics page
 
 
-@app.route('/metrics')
+@ app.route('/metrics')
 def metrics():
     data = get_matrics_data()
     return make_response(data, 200)
@@ -104,7 +109,6 @@ def metrics():
 def get_matrics_data():
     connection = get_db_connection()
 
-    dbConnectionCount = 1  # connection.total_changes
     postCount = len(connection.execute(
         'SELECT * FROM posts').fetchall())
     connection.close()
@@ -115,7 +119,12 @@ def get_matrics_data():
     return jsonify(data)
 
 
+def format_log(msg, logType):
+    return '{time} | {message}'.format(
+        time=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), message=msg)
+
+
 # start the application on port 3111
 if __name__ == "__main__":
-    # logging.basicConfig(filename='app.log', level=logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
     app.run(host='0.0.0.0', port='3111', debug=True)
