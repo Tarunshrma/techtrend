@@ -2,39 +2,38 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: { { .Values.appname } }
-  name: { { .Values.appname } }
-  namespace: { { .Values.namespace.name } }
+    app: {{ .Values.appname }}
+  name: {{ .Values.appname }}
+  namespace: {{ .Values.namespace.name }}
 
 spec:
-  replicas: { { .Values.replicaCount } }
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: { { .Values.appname } }
+      app: {{ .Values.appname }}
   template:
     metadata:
       labels:
-        app: { { .Values.appname } }
+        app: {{ .Values.appname }}
     spec:
       containers:
-        - image: { { .Values.image.repository } }
-          tag: { { .Values.image.tag } }
-          imagePullPolicy: { { .Values.image.pullPolicy } }
-          name: { { .Values.appname } }
+        - image: {{ .Values.image.repository }}
+          tag: {{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          name: {{ .Values.appname }}
           ports:
-            - containerPort: { { .Values.containerPort } }
+            - containerPort: {{ .Values.containerPort }}
           livenessProbe:
             httpGet:
-              path: { { .Values.livenessProbe.path } }
-              port: { { .Values.livenessProbe.port } }
+              path: {{ .Values.livenessProbe.path }}
+              port: {{ .Values.livenessProbe.port }}
             initialDelaySeconds: 5
             periodSeconds: 5
           readinessProbe:
             httpGet:
-              path: { { .Values.readinessProbe.path } }
-              port: { { .Values.readinessProbe.port } }
+              path: {{ .Values.readinessProbe.path }}
+              port: {{ .Values.readinessProbe.port }}
             initialDelaySeconds: 5
             periodSeconds: 5
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-
