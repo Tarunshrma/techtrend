@@ -6,7 +6,7 @@ appname: techtrends
 service:
   port: 4111
   targetPort: 3111
-  protcol: TCP
+  protocol: TCP
   type: ClusterIP
 
 image:

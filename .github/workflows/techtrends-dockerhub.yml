@@ -25,4 +25,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: tarunshrma/techtrends:0.0.4
+          tags: tarunshrma/techtrends:latest

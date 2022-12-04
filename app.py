@@ -1,18 +1,24 @@
 import sqlite3
+import sys
 import logging
 from flask import Flask, jsonify, json, make_response, render_template, request, url_for, redirect, flash
 from werkzeug.exceptions import abort
 from datetime import datetime
 
+# global variable for logger
+logger: logging.Logger = logging.getLogger(__name__)
+
 # Function to get a database connection.
-# This function connects to database with the name `database.db`
 
 
 def get_db_connection():
-    connection = sqlite3.connect('database.db')
-    connection.row_factory = sqlite3.Row
-    app.config['dbConnectionCount'] += 1
-    return connection
+    try:
+        connection = sqlite3.connect('database.db')
+        connection.row_factory = sqlite3.Row
+        app.config['dbConnectionCount'] += 1
+        return connection
+    except:
+        logger.error('Error getting connection!')
 
 # Function to get a post using its ID
 
@@ -48,11 +54,11 @@ def index():
 def post(post_id):
     post = get_post(post_id)
     if post is None:
-        app.logger.error(format_log('Article Not Found!'))
+        logger.error('Article Not Found!')
         return render_template('404.html'), 404
     else:
         title = dict(post)['title']
-        app.logger.info(format_log(f'Article {title} retrieved!'))
+        logger.debug(f'Article {title} retrieved!')
         return render_template('post.html', post=post)
 
 # Define the About Us page
@@ -60,7 +66,7 @@ def post(post_id):
 
 @ app.route('/about')
 def about():
-    app.logger.info(format_log('Navigating to about us page!'))
+    logger.debug('Navigating to about us page!')
     return render_template('about.html')
 
 # Define the post creation functionality
@@ -81,7 +87,7 @@ def create():
             connection.commit()
             connection.close()
 
-            app.logger.info(format_log(f'New article {title} created'))
+            logger.debug(f'New article {title} created')
 
             return redirect(url_for('index'))
 
@@ -117,12 +123,19 @@ def get_matrics_data():
     return jsonify(data)
 
 
-def format_log(msg):
-    return '{time} | {message}'.format(
-        time=datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), message=msg)
+def setup_logger():
+    file_handler = logging.FileHandler("app.log")  # file handler
+
+    stdout_handler = logging.StreamHandler(sys.stdout)
+    stderr_handler = logging.StreamHandler(sys.stderr)
+    handlers = [file_handler, stderr_handler, stdout_handler]
+
+    logging.basicConfig(handlers=handlers,
+                        format="%(asctime)8s %(levelname)-10s %(message)s")
+    logger.setLevel(logging.DEBUG)
 
 
-# start the application on port 3111
+    # start the application on port 3111
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
+    setup_logger()
     app.run(host='0.0.0.0', port='3111', debug=True)
